@@ -1,0 +1,34 @@
+import 'dart:async';
+
+import 'package:notifier/settings.dart';
+import 'package:notifier/status.dart';
+import 'package:system_tray/system_tray.dart';
+
+class Updater {
+  final systemTray = SystemTray();
+  final settings = SettingsService().settings;
+  late WorkTimeStatus status;
+  late WorkTimeStatus previousStatus;
+
+  Future<void> init() async {
+    Timer.periodic(const Duration(minutes: 1), (_) async {
+      await updateSystemTray();
+    });
+  }
+
+  Future<void> updateSystemTray() async {
+    previousStatus = status;
+    status = WorkTimeStatus(start: settings.start, now: DateTime.now());
+    //only update icon if needed
+    var iconPath =
+        status.iconPath == previousStatus.iconPath ? null : status.iconPath;
+    await systemTray.setSystemTrayInfo(
+        toolTip: status.message, iconPath: iconPath);
+  }
+
+  Future<void> initSystemTray() async {
+    status = WorkTimeStatus(start: settings.start, now: DateTime.now());
+    await systemTray.initSystemTray(
+        iconPath: status.iconPath, title: 'Notifier', toolTip: status.message);
+  }
+}

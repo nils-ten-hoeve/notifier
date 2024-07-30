@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib\\main.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\main.dart"
+        },
+        {
+            "name": "Flutter (tool\\generate_time_icon_files.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "tool\\generate_time_icon_files.dart"
+        }
+    ]
+}
