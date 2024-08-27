@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:notifier/settings.dart';
-import 'package:notifier/status.dart';
+import 'package:notifier/get_it/get_it.dart';
+import 'package:notifier/settings/settings.service.dart';
+import 'package:notifier/status/status.domain.dart';
 import 'package:system_tray/system_tray.dart';
 
 class Updater {
   final systemTray = SystemTray();
-  final settings = SettingsService().settings;
+  final settings = getIt<SettingsService>().settings;
   late WorkTimeStatus status;
   late WorkTimeStatus previousStatus;
 
@@ -18,7 +19,7 @@ class Updater {
 
   Future<void> updateSystemTray() async {
     previousStatus = status;
-    status = WorkTimeStatus(start: settings.start, now: DateTime.now());
+    status = WorkTimeStatus(start: settings.lastWorkStart, now: DateTime.now());
     //only update icon if needed
     var iconPath =
         status.iconPath == previousStatus.iconPath ? null : status.iconPath;
@@ -27,7 +28,7 @@ class Updater {
   }
 
   Future<void> initSystemTray() async {
-    status = WorkTimeStatus(start: settings.start, now: DateTime.now());
+    status = WorkTimeStatus(start: settings.lastWorkStart, now: DateTime.now());
     await systemTray.initSystemTray(
         iconPath: status.iconPath, title: 'Notifier', toolTip: status.message);
   }
