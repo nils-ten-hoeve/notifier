@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:notifier/status/status.domain.dart';
+import 'package:notifier/status/domain_status.dart';
 import 'package:shouldly/shouldly.dart';
 
 void main() {
