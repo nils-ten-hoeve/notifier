@@ -11,14 +11,6 @@ class SettingsForm extends StatefulWidget {
 class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-  static const List<String> _kOptions = <String>[
-    'pikachu',
-    'bulbasaur',
-    'charmander',
-    'squirtle',
-    'caterpie',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return FormBuilder(

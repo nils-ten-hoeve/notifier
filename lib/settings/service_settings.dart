@@ -30,10 +30,11 @@ class SettingsService {
     }
   }
 
-  _defaultSettings() => Settings(
-      lastWorkStart: DateTime.now()
-          .copyWith(hour: 7, minute: 12)); //TODO remove copyWith call
+  _defaultSettings() => Settings(lastWorkStart: DateTime.now());
 
-  _updateLastWorkStartIfNeeded(settings) =>
-      settings; //TODO check if lastWorkStart is of today. if not use DateTimeNow.
+  _updateLastWorkStartIfNeeded(settings) => Settings(
+      lastWorkStart: DateTime.now().copyWith(
+          hour: 6,
+          minute:
+              58)); //TODO check if lastWorkStart is of today. if not use DateTimeNow - 5 min.
 }
