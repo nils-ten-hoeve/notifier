@@ -50,20 +50,32 @@ enabled: true
 
     group('settingsToYaml function', () {
       test('given a settings object, should return an correct yaml', () {
-        var now = DateTime.now();
-        var settings = Settings(lastWorkStart: now);
+        var lastWorkStart = DateTime.now();
+        var workDuration = const Duration(minutes: 321);
+        var settings = Settings(
+          lastWorkStart: lastWorkStart,
+          workDuration: workDuration,
+        );
         var yaml = settingsToYaml(settings);
-        yaml.should.be({'lastWorkStart': now.toIso8601String()});
+        yaml.should.be({
+          'lastWorkStart': lastWorkStart.toIso8601String(),
+          'workDuration': workDuration.inMinutes,
+        });
       });
     });
 
     group('settingsFromYaml function', () {
       test('given a settings yaml, should return an correct settings object',
           () {
-        var now = DateTime.now();
-        var yaml = {'lastWorkStart': now.toIso8601String()};
+        var lastWorkStart = DateTime.now();
+        var workDuration = const Duration(minutes: 456);
+        var yaml = {
+          'lastWorkStart': lastWorkStart.toIso8601String(),
+          'workDuration': workDuration.inMinutes,
+        };
         var settings = settingsFromYaml(yaml);
-        var expected = Settings(lastWorkStart: now);
+        var expected =
+            Settings(lastWorkStart: lastWorkStart, workDuration: workDuration);
         settings.should.be(expected);
       });
     });

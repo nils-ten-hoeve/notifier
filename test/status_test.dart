@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:notifier/settings/domain_settings.dart';
 import 'package:notifier/status/domain_status.dart';
 import 'package:shouldly/shouldly.dart';
 
@@ -115,8 +116,8 @@ void main() {
     group('Overtime.', () {
       test('1 minute overtime.', () {
         var start = DateTime.parse('2012-02-27 07:00:00');
-        var now = start.add(
-            WorkTimeStatus.defaultWorkDuration + const Duration(minutes: 1));
+        var now = start
+            .add(Settings.defaultWorkDuration + const Duration(minutes: 1));
         var status = WorkTimeStatus(start: start, now: now);
         status.message.should.be('1 minute overtime.');
         status.iconPath.should.be('assets/overtime.ico');
@@ -124,8 +125,8 @@ void main() {
       });
       test('9 minutes overtime.', () {
         var start = DateTime.parse('2012-02-27 07:00:00');
-        var now = start.add(
-            WorkTimeStatus.defaultWorkDuration + const Duration(minutes: 9));
+        var now = start
+            .add(Settings.defaultWorkDuration + const Duration(minutes: 9));
         var status = WorkTimeStatus(start: start, now: now);
         status.message.should.be('9 minutes overtime.');
         status.iconPath.should.be('assets/overtime.ico');
@@ -133,8 +134,8 @@ void main() {
       });
       test('59 minutes overtime.', () {
         var start = DateTime.parse('2012-02-27 07:00:00');
-        var now = start.add(
-            WorkTimeStatus.defaultWorkDuration + const Duration(minutes: 59));
+        var now = start
+            .add(Settings.defaultWorkDuration + const Duration(minutes: 59));
         var status = WorkTimeStatus(start: start, now: now);
         status.message.should.be('59 minutes overtime.');
         status.iconPath.should.be('assets/overtime.ico');
@@ -142,8 +143,8 @@ void main() {
       });
       test('1:00 overtime.', () {
         var start = DateTime.parse('2012-02-27 07:00:00');
-        var now = start
-            .add(WorkTimeStatus.defaultWorkDuration + const Duration(hours: 1));
+        var now =
+            start.add(Settings.defaultWorkDuration + const Duration(hours: 1));
         var status = WorkTimeStatus(start: start, now: now);
         status.message.should.be('1:00 overtime.');
         status.iconPath.should.be('assets/overtime.ico');
@@ -151,8 +152,8 @@ void main() {
       });
       test('5:00 overtime.', () {
         var start = DateTime.parse('2012-02-27 07:00:00');
-        var now = start
-            .add(WorkTimeStatus.defaultWorkDuration + const Duration(hours: 5));
+        var now =
+            start.add(Settings.defaultWorkDuration + const Duration(hours: 5));
         var status = WorkTimeStatus(start: start, now: now);
         status.message.should.be('5:00 overtime.');
         status.iconPath.should.be('assets/overtime.ico');

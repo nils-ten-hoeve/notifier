@@ -19,7 +19,11 @@ class Updater {
 
   Future<void> updateSystemTray() async {
     previousStatus = status;
-    status = WorkTimeStatus(start: settings.lastWorkStart, now: DateTime.now());
+    status = WorkTimeStatus(
+      start: settings.lastWorkStart,
+      workDuration: settings.workDuration,
+      now: DateTime.now(),
+    );
     //only update icon if needed
     var iconPath =
         status.iconPath == previousStatus.iconPath ? null : status.iconPath;
@@ -28,7 +32,11 @@ class Updater {
   }
 
   Future<void> initSystemTray() async {
-    status = WorkTimeStatus(start: settings.lastWorkStart, now: DateTime.now());
+    status = WorkTimeStatus(
+      start: settings.lastWorkStart,
+      workDuration: settings.workDuration,
+      now: DateTime.now(),
+    );
     await systemTray.initSystemTray(
         iconPath: status.iconPath, title: 'Notifier', toolTip: status.message);
   }

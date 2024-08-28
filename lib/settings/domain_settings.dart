@@ -1,14 +1,23 @@
 class Settings {
   final DateTime lastWorkStart;
+  final Duration workDuration;
 
-  const Settings({required this.lastWorkStart});
+  static const int lunchMinutes = 30;
+  static const Duration defaultWorkDuration =
+      Duration(hours: 7, minutes: 50 + lunchMinutes);
+
+  const Settings({
+    required this.lastWorkStart,
+    this.workDuration = defaultWorkDuration,
+  });
 
   @override
   bool operator ==(Object other) =>
       other is Settings &&
       other.runtimeType == runtimeType &&
-      other.lastWorkStart == lastWorkStart;
+      other.lastWorkStart == lastWorkStart &&
+      other.workDuration == workDuration;
 
   @override
-  int get hashCode => lastWorkStart.hashCode; //Object.hash(object1, object2);
+  int get hashCode => Object.hash(lastWorkStart, workDuration);
 }

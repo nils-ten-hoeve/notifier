@@ -1,13 +1,12 @@
+import 'package:notifier/settings/domain_settings.dart';
+
 class WorkTimeStatus {
-  static const int lunchMinutes = 30;
-  static const Duration defaultWorkDuration =
-      Duration(hours: 7, minutes: 50 + lunchMinutes);
   final String iconPath;
   final String message;
 
   factory WorkTimeStatus({
     required DateTime start,
-    Duration workDuration = defaultWorkDuration,
+    Duration workDuration = Settings.defaultWorkDuration,
     required DateTime now,
   }) {
     if (isWeekend(now)) {

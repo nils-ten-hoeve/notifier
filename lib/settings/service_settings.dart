@@ -25,16 +25,19 @@ class SettingsService {
     try {
       var database = getIt<SettingsDatabase>();
       return database.read();
-    } on Exception {
+    } catch (_) {
       return null;
     }
   }
 
-  _defaultSettings() => Settings(lastWorkStart: DateTime.now());
+  _defaultSettings() => Settings(lastWorkStart: nowMinus5Minutes);
+
+  DateTime get nowMinus5Minutes =>
+      DateTime.now().add(const Duration(minutes: 5));
 
   _updateLastWorkStartIfNeeded(settings) => Settings(
       lastWorkStart: DateTime.now().copyWith(
           hour: 6,
           minute:
-              58)); //TODO check if lastWorkStart is of today. if not use DateTimeNow - 5 min.
+              58)); //TODO check if lastWorkStart is of today. if not use nowMinus5Minutes.
 }

@@ -4,11 +4,14 @@ import 'package:notifier/settings/domain_settings.dart';
 import 'package:yaml/yaml.dart';
 import 'package:yaml_writer/yaml_writer.dart';
 
-Settings settingsFromYaml(Map<String, dynamic> yaml) =>
-    Settings(lastWorkStart: DateTime.parse(yaml['lastWorkStart'] as String));
+Settings settingsFromYaml(Map<String, dynamic> yaml) => Settings(
+      lastWorkStart: DateTime.parse(yaml['lastWorkStart'] as String),
+      workDuration: Duration(minutes: yaml['workDuration']),
+    );
 
 Map<String, dynamic> settingsToYaml(Settings settings) => <String, dynamic>{
       'lastWorkStart': settings.lastWorkStart.toIso8601String(),
+      'workDuration': settings.workDuration.inMinutes,
     };
 
 Map<String, dynamic> readFromYamlFile(String yamlFilePath) {
