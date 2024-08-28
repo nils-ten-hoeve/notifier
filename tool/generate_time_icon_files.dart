@@ -21,7 +21,6 @@
 //       WorkTimeStatus.remaining(Duration(minutes: m))
 //   ];
 
-
 // img.Image createImage(WorkTimeStatus status) {
 //   final image = img.Image(width: 32, height: 32);
 
@@ -36,8 +35,6 @@
 
 //   return image;
 // }
-
-
 
 // void writeImage(WorkTimeStatus status, img.Image image) {
 //   final outputFile = File(status.iconPath);

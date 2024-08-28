@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:notifier/get_it/get_it.dart';
-import 'package:notifier/settings/settings.form.presentation.dart';
+import 'package:notifier/settings/presentation_settings_form.dart';
 import 'package:notifier/updater.dart';
 import 'package:system_tray/system_tray.dart';
 
@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
   final Menu _menuSimple = Menu();
 
   Timer? _timer;
- 
 
   bool _toogleMenu = true;
 
@@ -74,7 +73,6 @@ class _MyAppState extends State<MyApp> {
   // }
 
   Future<void> initSystemTray() async {
-
     await updater.initSystemTray();
 
     // handle system tray event

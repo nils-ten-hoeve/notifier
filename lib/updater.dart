@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:notifier/get_it/get_it.dart';
-import 'package:notifier/settings/settings.service.dart';
+import 'package:notifier/settings/service_settings.dart';
 import 'package:notifier/status/status.domain.dart';
 import 'package:system_tray/system_tray.dart';
 

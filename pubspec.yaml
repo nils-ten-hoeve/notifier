@@ -28,6 +28,8 @@ dependencies:
   collection: ^1.18.0
   flutter_form_builder: ^9.4.1
   get_it: ^7.7.0
+  yaml: ^3.1.2
+  yaml_writer: ^2.0.0
   
 dev_dependencies:
   flutter_test:

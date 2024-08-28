@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:notifier/settings/settings.data.dart';
-import 'package:notifier/settings/settings.service.dart';
+import 'package:notifier/settings/data_settings_database.dart';
+import 'package:notifier/settings/service_settings.dart';
 
 final getIt = GetIt.instance;
 

@@ -35,8 +35,6 @@ class _SettingsFormState extends State<SettingsForm> {
                 onDateSubmitted: (value) => field.didChange(value),
                 errorInvalidText: field.errorText,
                 onDateSaved: (value) => field.didChange(value),
-                
-                
               );
             },
           ),

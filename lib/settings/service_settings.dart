@@ -1,6 +1,6 @@
-import 'package:notifier/settings/settings.data.dart';
+import 'package:notifier/settings/data_settings_database.dart';
 import 'package:notifier/get_it/get_it.dart';
-import 'package:notifier/settings/settings.domain.dart';
+import 'package:notifier/settings/domain_settings.dart';
 
 class SettingsService {
   Settings? _cachedSettings;
@@ -30,8 +30,9 @@ class SettingsService {
     }
   }
 
-  _defaultSettings() =>
-      Settings(lastWorkStart: DateTime.now().copyWith(hour: 7, minute: 12));//TODO remove copyWith call
+  _defaultSettings() => Settings(
+      lastWorkStart: DateTime.now()
+          .copyWith(hour: 7, minute: 12)); //TODO remove copyWith call
 
   _updateLastWorkStartIfNeeded(settings) =>
       settings; //TODO check if lastWorkStart is of today. if not use DateTimeNow.
