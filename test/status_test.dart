@@ -58,7 +58,7 @@ void main() {
         var start = DateTime.parse('2012-02-27 08:00:00');
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: start);
-        status.message.should.be('8:20 remaining.');
+        status.message.should.be('8:20 remaining (8:00-16:20)');
         status.iconPath.should.be('assets/82.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -67,7 +67,7 @@ void main() {
         var now = start.add(const Duration(hours: 1));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('7:20 remaining.');
+        status.message.should.be('7:20 remaining (8:00-16:20)');
         status.iconPath.should.be('assets/72.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -76,7 +76,7 @@ void main() {
         var now = start.add(const Duration(hours: 7, minutes: 20));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('1:00 remaining.');
+        status.message.should.be('1:00 remaining (9:00-17:20)');
         status.iconPath.should.be('assets/10.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -85,7 +85,7 @@ void main() {
         var now = start.add(const Duration(hours: 7, minutes: 21));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('59 minutes remaining.');
+        status.message.should.be('59 minutes remaining (9:00-17:20)');
         status.iconPath.should.be('assets/05.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -94,7 +94,7 @@ void main() {
         var now = start.add(const Duration(hours: 8, minutes: 10));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('10 minutes remaining.');
+        status.message.should.be('10 minutes remaining (9:00-17:20)');
         status.iconPath.should.be('assets/01.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -103,7 +103,7 @@ void main() {
         var now = start.add(const Duration(hours: 8, minutes: 11));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('9 minutes remaining.');
+        status.message.should.be('9 minutes remaining (9:00-17:20)');
         status.iconPath.should.be('assets/O9.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -112,7 +112,7 @@ void main() {
         var now = start.add(const Duration(hours: 8, minutes: 19));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('1 minute remaining.');
+        status.message.should.be('1 minute remaining (9:00-17:20)');
         status.iconPath.should.be('assets/O1.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -121,7 +121,7 @@ void main() {
         var now = start.add(const Duration(hours: 8, minutes: 20));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('0 minutes remaining.');
+        status.message.should.be('0 minutes remaining (7:00-15:20)');
         status.iconPath.should.be('assets/O0.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });

@@ -14,12 +14,12 @@ class WorkTimeStatus {
     if (isInvalid(settings.workStart)) {
       return WorkTimeStatus.invalid();
     }
-    var worked = now.difference(settings.workStart);
-    var remaing = settings.workDuration - worked;
+    var workEnd = settings.workStart.add(settings.workDuration);
+    var remaing = workEnd.difference(now);
     if (isOverTime(remaing)) {
       return WorkTimeStatus.overtime(remaing * -1);
     }
-    return WorkTimeStatus.remaining(remaing);
+    return WorkTimeStatus.remaining(settings.workStart, workEnd, remaing);
   }
 
   static bool isInvalid(DateTime start) =>
@@ -39,27 +39,35 @@ class WorkTimeStatus {
 
   WorkTimeStatus.overtime(Duration duration)
       : iconPath = 'assets/overtime.ico',
-        message = '${format(duration)} overtime.';
+        message = '${formatDuration(duration)} overtime.';
 
-  WorkTimeStatus.remaining(Duration duration)
-      : iconPath = duration.inMinutes <= 9
+  WorkTimeStatus.remaining(
+    DateTime workStart,
+    DateTime workEnd,
+    Duration duration,
+  )   : iconPath = duration.inMinutes <= 9
             ? 'assets/O${duration.inMinutes}.ico'
             : 'assets/${duration.inHours}${(duration.inMinutes % 60 ~/ 10)}.ico',
-        message = '${format(duration)} remaining.';
+        message = '${formatDuration(duration)} remaining '
+            '(${formatTime(workStart)}-${formatTime(workEnd)})';
 
-  static String format(Duration duration) {
+  static String formatDuration(Duration duration) {
     if (duration.inMinutes == 1) {
       return '${duration.inMinutes} minute';
     }
     if (duration.inMinutes <= 59) {
       return '${duration.inMinutes} minutes';
     }
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
+
     var hours = duration.inHours;
     var min = twoDigits(duration.inMinutes.remainder(60).abs());
     return "$hours:$min";
   }
 
+  static String formatTime(DateTime dateTime) =>
+      '${dateTime.hour}:${twoDigits(dateTime.minute)}';
+
+  static String twoDigits(int n) => n.toString().padLeft(2, "0");
   @override
   bool operator ==(Object other) {
     return other is WorkTimeStatus &&
