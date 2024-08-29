@@ -3,19 +3,18 @@ import 'package:notifier/get_it/get_it.dart';
 import 'package:notifier/settings/domain_settings.dart';
 
 class SettingsService {
-  SettingsService._privateConstructor();
+  late Settings _cachedSettings;
+
+  SettingsService._privateConstructor() {
+    settings = _initSettings();
+  }
 
   static final SettingsService _singleton =
       SettingsService._privateConstructor();
 
   factory SettingsService() => _singleton;
 
-  Settings? _cachedSettings;
-
-  Settings get settings {
-    _cachedSettings ??= _initSettings();
-    return _cachedSettings!;
-  }
+  Settings get settings => _cachedSettings!;
 
   set settings(Settings settings) {
     _writeToDatabase(settings);
@@ -23,9 +22,8 @@ class SettingsService {
   }
 
   Settings _initSettings() {
-    var settings = _settingsFromDatabase() ?? _defaultSettings();
+    var settings = _readFromDatabase() ?? _defaultSettings();
     settings = _updateWorkStartIfNeeded(settings);
-    _writeToDatabase(settings);
     return settings;
   }
 
@@ -37,7 +35,7 @@ class SettingsService {
     }
   }
 
-  Settings? _settingsFromDatabase() {
+  Settings? _readFromDatabase() {
     try {
       var database = getIt<SettingsDatabase>();
       return database.read();
