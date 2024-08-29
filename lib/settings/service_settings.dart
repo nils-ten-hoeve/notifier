@@ -16,7 +16,7 @@ class SettingsService {
 
   factory SettingsService() => _singleton;
 
-  Settings get settings => _cachedSettings!;
+  Settings get settings => _cachedSettings;
 
   set settings(Settings settings) {
     _writeToDatabase(settings);
