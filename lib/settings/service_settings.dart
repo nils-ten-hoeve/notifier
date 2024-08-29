@@ -9,6 +9,8 @@ class SettingsService {
     settings = _initSettings();
   }
 
+  /// SettingsService is a singleton to ensure
+  /// we have only onve version of the [_cachedSettings]
   static final SettingsService _singleton =
       SettingsService._privateConstructor();
 
