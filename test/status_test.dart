@@ -133,7 +133,7 @@ void main() {
             .add(Settings.defaultWorkDuration + const Duration(minutes: 1));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('1 minute overtime.');
+        status.message.should.be('1 minute overtime (7:00-15:20)');
         status.iconPath.should.be('assets/overtime.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -143,7 +143,7 @@ void main() {
             .add(Settings.defaultWorkDuration + const Duration(minutes: 9));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('9 minutes overtime.');
+        status.message.should.be('9 minutes overtime (7:00-15:20)');
         status.iconPath.should.be('assets/overtime.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -153,7 +153,7 @@ void main() {
             .add(Settings.defaultWorkDuration + const Duration(minutes: 59));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('59 minutes overtime.');
+        status.message.should.be('59 minutes overtime (7:00-15:20)');
         status.iconPath.should.be('assets/overtime.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -163,7 +163,7 @@ void main() {
             start.add(Settings.defaultWorkDuration + const Duration(hours: 1));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('1:00 overtime.');
+        status.message.should.be('1:00 overtime (7:00-15:20)');
         status.iconPath.should.be('assets/overtime.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });
@@ -173,7 +173,7 @@ void main() {
             start.add(Settings.defaultWorkDuration + const Duration(hours: 5));
         var settings = Settings(workStart: start);
         var status = WorkTimeStatus(settings: settings, now: now);
-        status.message.should.be('5:00 overtime.');
+        status.message.should.be('5:00 overtime (7:00-15:20)');
         status.iconPath.should.be('assets/overtime.ico');
         File(status.iconPath).existsSync().should.beTrue();
       });

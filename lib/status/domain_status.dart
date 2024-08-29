@@ -17,9 +17,17 @@ class WorkTimeStatus {
     var workEnd = settings.workStart.add(settings.workDuration);
     var remaing = workEnd.difference(now);
     if (isOverTime(remaing)) {
-      return WorkTimeStatus.overtime(remaing * -1);
+      return WorkTimeStatus.overtime(
+        settings.workStart,
+        workEnd,
+        remaing * -1,
+      );
     }
-    return WorkTimeStatus.remaining(settings.workStart, workEnd, remaing);
+    return WorkTimeStatus.remaining(
+      settings.workStart,
+      workEnd,
+      remaing,
+    );
   }
 
   static bool isInvalid(DateTime start) =>
@@ -37,9 +45,13 @@ class WorkTimeStatus {
       : iconPath = 'assets/invalid.ico',
         message = 'Invalid start time.';
 
-  WorkTimeStatus.overtime(Duration duration)
-      : iconPath = 'assets/overtime.ico',
-        message = '${formatDuration(duration)} overtime.';
+  WorkTimeStatus.overtime(
+    DateTime workStart,
+    DateTime workEnd,
+    Duration duration,
+  )   : iconPath = 'assets/overtime.ico',
+        message = '${formatDuration(duration)} overtime '
+            '(${formatTime(workStart)}-${formatTime(workEnd)})';
 
   WorkTimeStatus.remaining(
     DateTime workStart,
