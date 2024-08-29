@@ -21,22 +21,21 @@ void main() {
 
     group('.write(settings)', () {
       test('should store a settings object in a correct yaml file', () {
-        var lastWorkStart = DateTime.now();
+        var workStart = DateTime.now();
         var workDuration = const Duration(minutes: 123);
         var settings =
-            Settings(lastWorkStart: lastWorkStart, workDuration: workDuration);
+            Settings(workStart: workStart, workDuration: workDuration);
         database.write(settings);
         var fileContents = File(database.yamlFilePath).readAsStringSync();
-        fileContents.should
-            .be("lastWorkStart: '${lastWorkStart.toIso8601String()}'\n"
-                "workDuration: ${workDuration.inMinutes}\n");
+        fileContents.should.be("workStart: '${workStart.toIso8601String()}'\n"
+            "workDuration: ${workDuration.inMinutes}\n");
       });
     });
 
     group('.read()', () {
       test('should return a correct settings object', () {
         var now = DateTime.now();
-        var settings = Settings(lastWorkStart: now);
+        var settings = Settings(workStart: now);
         database.write(settings);
         var result = database.read();
         result.should.be(settings);

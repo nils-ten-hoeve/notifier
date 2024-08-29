@@ -12,7 +12,7 @@ class SettingsService {
 
   Settings _initSettings() {
     var settings = _settingsFromDatabase() ?? _defaultSettings();
-    settings = _updateLastWorkStartIfNeeded(settings);
+    settings = _updateworkStartIfNeeded(settings);
     try {
       getIt<SettingsDatabase>().write(settings);
     } on Exception {
@@ -30,14 +30,14 @@ class SettingsService {
     }
   }
 
-  _defaultSettings() => Settings(lastWorkStart: nowMinus5Minutes);
+  _defaultSettings() => Settings(workStart: nowMinus5Minutes);
 
   DateTime get nowMinus5Minutes =>
       DateTime.now().add(const Duration(minutes: 5));
 
-  _updateLastWorkStartIfNeeded(settings) => Settings(
-      lastWorkStart: DateTime.now().copyWith(
+  _updateworkStartIfNeeded(settings) => Settings(
+      workStart: DateTime.now().copyWith(
           hour: 6,
           minute:
-              58)); //TODO check if lastWorkStart is of today. if not use nowMinus5Minutes.
+              58)); //TODO check if workStart is of today. if not use nowMinus5Minutes.
 }

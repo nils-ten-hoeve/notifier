@@ -50,15 +50,15 @@ enabled: true
 
     group('settingsToYaml function', () {
       test('given a settings object, should return an correct yaml', () {
-        var lastWorkStart = DateTime.now();
+        var workStart = DateTime.now();
         var workDuration = const Duration(minutes: 321);
         var settings = Settings(
-          lastWorkStart: lastWorkStart,
+          workStart: workStart,
           workDuration: workDuration,
         );
         var yaml = settingsToYaml(settings);
         yaml.should.be({
-          'lastWorkStart': lastWorkStart.toIso8601String(),
+          'workStart': workStart.toIso8601String(),
           'workDuration': workDuration.inMinutes,
         });
       });
@@ -67,15 +67,15 @@ enabled: true
     group('settingsFromYaml function', () {
       test('given a settings yaml, should return an correct settings object',
           () {
-        var lastWorkStart = DateTime.now();
+        var workStart = DateTime.now();
         var workDuration = const Duration(minutes: 456);
         var yaml = {
-          'lastWorkStart': lastWorkStart.toIso8601String(),
+          'workStart': workStart.toIso8601String(),
           'workDuration': workDuration.inMinutes,
         };
         var settings = settingsFromYaml(yaml);
         var expected =
-            Settings(lastWorkStart: lastWorkStart, workDuration: workDuration);
+            Settings(workStart: workStart, workDuration: workDuration);
         settings.should.be(expected);
       });
     });

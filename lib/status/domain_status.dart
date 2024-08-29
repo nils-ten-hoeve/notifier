@@ -11,10 +11,10 @@ class WorkTimeStatus {
     if (isWeekend(now)) {
       return WorkTimeStatus.weekend();
     }
-    if (isInvalid(settings.lastWorkStart)) {
+    if (isInvalid(settings.workStart)) {
       return WorkTimeStatus.invalid();
     }
-    var worked = now.difference(settings.lastWorkStart);
+    var worked = now.difference(settings.workStart);
     var remaing = settings.workDuration - worked;
     if (isOverTime(remaing)) {
       return WorkTimeStatus.overtime(remaing * -1);
