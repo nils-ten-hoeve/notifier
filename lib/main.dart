@@ -63,7 +63,6 @@ class _MyAppState extends State<MyApp> {
 
     // handle system tray event
     _systemTray.registerSystemTrayEventHandler((eventName) {
-      debugPrint("eventName: $eventName");
       if (eventName == kSystemTrayEventClick) {
         Platform.isWindows ? _appWindow.show() : _systemTray.popUpContextMenu();
       } else if (eventName == kSystemTrayEventRightClick) {
