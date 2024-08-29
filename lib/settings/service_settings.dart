@@ -3,10 +3,10 @@ import 'package:notifier/get_it/get_it.dart';
 import 'package:notifier/settings/domain_settings.dart';
 
 class SettingsService {
-
   SettingsService._privateConstructor();
 
-  static final SettingsService _singleton = SettingsService._privateConstructor();
+  static final SettingsService _singleton =
+      SettingsService._privateConstructor();
 
   factory SettingsService() => _singleton;
 
@@ -17,15 +17,24 @@ class SettingsService {
     return _cachedSettings!;
   }
 
+  set settings(Settings settings) {
+    _writeToDatabase(settings);
+    _cachedSettings = settings;
+  }
+
   Settings _initSettings() {
     var settings = _settingsFromDatabase() ?? _defaultSettings();
     settings = _updateWorkStartIfNeeded(settings);
+    _writeToDatabase(settings);
+    return settings;
+  }
+
+  void _writeToDatabase(Settings settings) {
     try {
       getIt<SettingsDatabase>().write(settings);
     } on Exception {
       // failed writing to the database: not the end of the world
     }
-    return settings;
   }
 
   Settings? _settingsFromDatabase() {
