@@ -20,8 +20,7 @@ class Updater {
   Future<void> updateSystemTray() async {
     previousStatus = status;
     status = WorkTimeStatus(
-      start: settings.lastWorkStart,
-      workDuration: settings.workDuration,
+      settings: settings,
       now: DateTime.now(),
     );
     //only update icon if needed
@@ -33,8 +32,7 @@ class Updater {
 
   Future<void> initSystemTray() async {
     status = WorkTimeStatus(
-      start: settings.lastWorkStart,
-      workDuration: settings.workDuration,
+      settings: settings,
       now: DateTime.now(),
     );
     await systemTray.initSystemTray(

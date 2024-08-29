@@ -5,18 +5,17 @@ class WorkTimeStatus {
   final String message;
 
   factory WorkTimeStatus({
-    required DateTime start,
-    Duration workDuration = Settings.defaultWorkDuration,
+    required Settings settings,
     required DateTime now,
   }) {
     if (isWeekend(now)) {
       return WorkTimeStatus.weekend();
     }
-    if (isInvalid(start)) {
+    if (isInvalid(settings.lastWorkStart)) {
       return WorkTimeStatus.invalid();
     }
-    var worked = now.difference(start);
-    var remaing = workDuration - worked;
+    var worked = now.difference(settings.lastWorkStart);
+    var remaing = settings.workDuration - worked;
     if (isOverTime(remaing)) {
       return WorkTimeStatus.overtime(remaing * -1);
     }

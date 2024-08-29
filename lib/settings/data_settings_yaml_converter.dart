@@ -6,7 +6,7 @@ import 'package:yaml_writer/yaml_writer.dart';
 
 Settings settingsFromYaml(Map<String, dynamic> yaml) => Settings(
       lastWorkStart: DateTime.parse(yaml['lastWorkStart'] as String),
-      workDuration: Duration(minutes: yaml['workDuration']),
+      workDuration: Duration(minutes: yaml['workDuration'] as int),
     );
 
 Map<String, dynamic> settingsToYaml(Settings settings) => <String, dynamic>{
