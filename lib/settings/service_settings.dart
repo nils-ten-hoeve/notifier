@@ -3,6 +3,13 @@ import 'package:notifier/get_it/get_it.dart';
 import 'package:notifier/settings/domain_settings.dart';
 
 class SettingsService {
+
+  SettingsService._privateConstructor();
+
+  static final SettingsService _singleton = SettingsService._privateConstructor();
+
+  factory SettingsService() => _singleton;
+
   Settings? _cachedSettings;
 
   Settings get settings {
