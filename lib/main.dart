@@ -30,10 +30,6 @@ String getTrayImagePath(String imageName) {
   return Platform.isWindows ? 'assets/$imageName.ico' : 'assets/$imageName.png';
 }
 
-String getImagePath(String imageName) {
-  return Platform.isWindows ? 'assets/$imageName.bmp' : 'assets/$imageName.png';
-}
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -44,8 +40,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppWindow _appWindow = AppWindow();
   final Menu _menuMain = Menu();
-
-
 
   @override
   void initState() {
@@ -83,7 +77,6 @@ class _MyAppState extends State<MyApp> {
             label: 'Exit', onClicked: (menuItem) => _appWindow.close()),
       ],
     );
-
 
     _systemTray.setContextMenu(_menuMain);
   }

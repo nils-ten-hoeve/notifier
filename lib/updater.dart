@@ -13,7 +13,7 @@ class Updater {
   late Timer timer;
 
   Future<void> init() async {
-    timer=Timer.periodic(const Duration(minutes: 1), (_) async {
+    timer = Timer.periodic(const Duration(minutes: 1), (_) async {
       await updateSystemTray();
     });
   }
