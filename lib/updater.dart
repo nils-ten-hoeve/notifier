@@ -10,9 +10,10 @@ class Updater {
   final settings = getIt<SettingsService>().settings;
   late WorkTimeStatus status;
   late WorkTimeStatus previousStatus;
+  late Timer timer;
 
   Future<void> init() async {
-    Timer.periodic(const Duration(minutes: 1), (_) async {
+    timer=Timer.periodic(const Duration(minutes: 1), (_) async {
       await updateSystemTray();
     });
   }
@@ -37,5 +38,9 @@ class Updater {
     );
     await systemTray.initSystemTray(
         iconPath: status.iconPath, title: 'Notifier', toolTip: status.message);
+  }
+
+  void dispose() {
+    timer.cancel();
   }
 }

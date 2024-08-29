@@ -44,11 +44,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppWindow _appWindow = AppWindow();
   final Menu _menuMain = Menu();
-  final Menu _menuSimple = Menu();
 
-  Timer? _timer;
 
-  bool _toogleMenu = true;
 
   @override
   void initState() {
@@ -60,17 +57,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     super.dispose();
-    _timer?.cancel();
+    updater.dispose();
   }
 
   final Updater updater = Updater();
 
   late final SystemTray _systemTray = updater.systemTray;
-
-  // Future<void> initApp() async {
-  //   await updater.init();
-  //   await initSystemTray();
-  // }
 
   Future<void> initSystemTray() async {
     await updater.initSystemTray();
@@ -87,197 +79,11 @@ class _MyAppState extends State<MyApp> {
 
     await _menuMain.buildFrom(
       [
-        // MenuItemLabel(
-        //   label: 'Change Context Menu',
-        //   image: getImagePath('darts_icon'),
-        //   onClicked: (menuItem) {
-        //     debugPrint("Change Context Menu");
-
-        //     _toogleMenu = !_toogleMenu;
-        //     _systemTray.setContextMenu(_toogleMenu ? _menuMain : _menuSimple);
-        //   },
-        // ),
-        // MenuSeparator(),
-        // MenuItemLabel(
-        //     label: 'Show',
-        //     image: getImagePath('darts_icon'),
-        //     onClicked: (menuItem) => _appWindow.show()),
-        // MenuItemLabel(
-        //     label: 'Hide',
-        //     image: getImagePath('darts_icon'),
-        //     onClicked: (menuItem) => _appWindow.hide()),
-        // MenuItemLabel(
-        //   label: 'Start flash tray icon',
-        //   image: getImagePath('darts_icon'),
-        //   onClicked: (menuItem) {
-        //     debugPrint("Start flash tray icon");
-
-        //     _timer ??= Timer.periodic(
-        //       const Duration(milliseconds: 500),
-        //       (timer) {
-        //         _toogleTrayIcon = !_toogleTrayIcon;
-        //         _systemTray.setImage(
-        //             _toogleTrayIcon ? "" : getTrayImagePath('app_icon'));
-        //       },
-        //     );
-        //   },
-        // ),
-        // MenuItemLabel(
-        //   label: 'Stop flash tray icon',
-        //   image: getImagePath('darts_icon'),
-        //   onClicked: (menuItem) {
-        //     debugPrint("Stop flash tray icon");
-
-        //     _timer?.cancel();
-        //     _timer = null;
-
-        //     _systemTray.setImage(getTrayImagePath('app_icon'));
-        //   },
-        // ),
-        // MenuSeparator(),
-        // SubMenu(
-        //   label: "Test API",
-        //   image: getImagePath('gift_icon'),
-        //   children: [
-        //     SubMenu(
-        //       label: "setSystemTrayInfo",
-        //       image: getImagePath('darts_icon'),
-        //       children: [
-        //         MenuItemLabel(
-        //           label: 'setTitle',
-        //           image: getImagePath('darts_icon'),
-        //           onClicked: (menuItem) {
-        //             final String text = WordPair.random().asPascalCase;
-        //             debugPrint("click 'setTitle' : $text");
-        //             _systemTray.setTitle(text);
-        //           },
-        //         ),
-        //         MenuItemLabel(
-        //           label: 'setImage',
-        //           image: getImagePath('gift_icon'),
-        //           onClicked: (menuItem) {
-        //             String iconName =
-        //                 iconList[Random().nextInt(iconList.length)];
-        //             String path = getTrayImagePath(iconName);
-        //             debugPrint("click 'setImage' : $path");
-        //             _systemTray.setImage(path);
-        //           },
-        //         ),
-        //         MenuItemLabel(
-        //           label: 'setToolTip',
-        //           image: getImagePath('darts_icon'),
-        //           onClicked: (menuItem) {
-        //             final String text = WordPair.random().asPascalCase;
-        //             debugPrint("click 'setToolTip' : $text");
-        //             _systemTray.setToolTip(text);
-        //           },
-        //         ),
-        //         MenuItemLabel(
-        //           label: 'getTitle',
-        //           image: getImagePath('gift_icon'),
-        //           onClicked: (menuItem) async {
-        //             String title = await _systemTray.getTitle();
-        //             debugPrint("click 'getTitle' : $title");
-        //           },
-        //         ),
-        //       ],
-        //     ),
-        //     MenuItemLabel(
-        //         label: 'disabled Item',
-        //         name: 'disableItem',
-        //         image: getImagePath('gift_icon'),
-        //         enabled: false),
-        //   ],
-        // ),
-        // MenuSeparator(),
-        // MenuItemLabel(
-        //   label: 'Set Item Image',
-        //   onClicked: (menuItem) async {
-        //     debugPrint("click 'SetItemImage'");
-
-        //     String iconName = iconList[Random().nextInt(iconList.length)];
-        //     String path = getImagePath(iconName);
-
-        //     await menuItem.setImage(path);
-        //     debugPrint(
-        //         "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} image: ${menuItem.image}");
-        //   },
-        // ),
-        // MenuItemCheckbox(
-        //   label: 'Checkbox 1',
-        //   name: 'checkbox1',
-        //   checked: true,
-        //   onClicked: (menuItem) async {
-        //     debugPrint("click 'Checkbox 1'");
-
-        //     MenuItemCheckbox? checkbox1 =
-        //         _menuMain.findItemByName<MenuItemCheckbox>("checkbox1");
-        //     await checkbox1?.setCheck(!checkbox1.checked);
-
-        //     MenuItemCheckbox? checkbox2 =
-        //         _menuMain.findItemByName<MenuItemCheckbox>("checkbox2");
-        //     await checkbox2?.setEnable(checkbox1?.checked ?? true);
-
-        //     debugPrint(
-        //         "click name: ${checkbox1?.name} menuItemId: ${checkbox1?.menuItemId} label: ${checkbox1?.label} checked: ${checkbox1?.checked}");
-        //   },
-        // ),
-        // MenuItemCheckbox(
-        //   label: 'Checkbox 2',
-        //   name: 'checkbox2',
-        //   onClicked: (menuItem) async {
-        //     debugPrint("click 'Checkbox 2'");
-
-        //     await menuItem.setCheck(!menuItem.checked);
-        //     await menuItem.setLabel(WordPair.random().asPascalCase);
-        //     debugPrint(
-        //         "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} checked: ${menuItem.checked}");
-        //   },
-        // ),
-        // MenuItemCheckbox(
-        //   label: 'Checkbox 3',
-        //   name: 'checkbox3',
-        //   checked: true,
-        //   onClicked: (menuItem) async {
-        //     debugPrint("click 'Checkbox 3'");
-
-        //     await menuItem.setCheck(!menuItem.checked);
-        //     debugPrint(
-        //         "click name: ${menuItem.name} menuItemId: ${menuItem.menuItemId} label: ${menuItem.label} checked: ${menuItem.checked}");
-        //   },
-        // ),
-        // MenuSeparator(),
         MenuItemLabel(
             label: 'Exit', onClicked: (menuItem) => _appWindow.close()),
       ],
     );
 
-    await _menuSimple.buildFrom([
-      MenuItemLabel(
-        label: 'Change Context Menu',
-        image: getImagePath('app_icon'),
-        onClicked: (menuItem) {
-          debugPrint("Change Context Menu");
-
-          _toogleMenu = !_toogleMenu;
-          _systemTray.setContextMenu(_toogleMenu ? _menuMain : _menuSimple);
-        },
-      ),
-      MenuSeparator(),
-      MenuItemLabel(
-          label: 'Show',
-          image: getImagePath('app_icon'),
-          onClicked: (menuItem) => _appWindow.show()),
-      MenuItemLabel(
-          label: 'Hide',
-          image: getImagePath('app_icon'),
-          onClicked: (menuItem) => _appWindow.hide()),
-      MenuItemLabel(
-        label: 'Exit',
-        image: getImagePath('app_icon'),
-        onClicked: (menuItem) => _appWindow.close(),
-      ),
-    ]);
 
     _systemTray.setContextMenu(_menuMain);
   }
