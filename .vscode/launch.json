@@ -7,10 +7,10 @@
             "program": "lib\\main.dart"
         },
         {
-            "name": "Flutter (tool\\generate_time_icon_files.dart)",
+            "name": "Flutter (tool\\create_windows_msix_installer.dart)",
             "type": "dart",
             "request": "launch",
-            "program": "tool\\generate_time_icon_files.dart"
+            "program": "tool\\create_windows_msix_installer.dart"
         }
     ]
 }
