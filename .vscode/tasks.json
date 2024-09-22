@@ -1,0 +1,14 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build windows msix installer",
+            "type": "shell",
+            "command": "dart run msix:create",
+            "detail": "You might need to do this once to get the signature approved: https://www.youtube.com/watch?v=s40bCNnFUgg"
+
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+See VS Code task "build windows msix installer" in this project
+* You might need to do this once to get the signature approved: https://www.youtube.com/watch?v=s40bCNnFUgg
+* Results in: build\windows\x64\runner\Release\notifier.msix
