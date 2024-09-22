@@ -21,46 +21,135 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: <Widget>[
-            StartTimeInputField(formKey: _formKey),
-            // For debuging:
-            // SelectableText(getIt<SettingsDatabase>().yamlFilePath),
-            // Text(settingsService.settings.workStart.toIso8601String()),
-            const SizedBox(height: 30),
-            Row(
+    return Shortcuts(
+      shortcuts: {
+        LogicalKeySet(
+          LogicalKeyboardKey.alt,
+          LogicalKeyboardKey.enter,
+        ): const OpenKronosInBrowserIntent(),
+        LogicalKeySet(LogicalKeyboardKey.enter): SubmitFormIntent(_formKey),
+        LogicalKeySet(LogicalKeyboardKey.escape): const CancelFormIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowUp):
+            IncreaseOneMinuteIntent(_formKey),
+        LogicalKeySet(LogicalKeyboardKey.arrowDown):
+            DecreaseOneMinuteIntent(_formKey),
+      },
+      child: Actions(
+        actions: {
+          OpenKronosInBrowserIntent: OpenKronosInBrowserAction(),
+          SubmitFormIntent: SubmitFormAction(),
+          CancelFormIntent: CancelFormAction(),
+          IncreaseOneMinuteIntent: IncreaseOneMinuteAction(),
+          DecreaseOneMinuteIntent: DecreaseOneMinuteAction(),
+        },
+        child: FormBuilder(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
               children: <Widget>[
-                const Expanded(child: SizedBox()),
-                const CancelButton(),
-                const SizedBox(width: 10),
-                ModifyStartTimeButton(formKey: _formKey),
+                StartTimeInputField(formKey: _formKey),
+                // For debuging:
+                // SelectableText(getIt<SettingsDatabase>().yamlFilePath),
+                // Text(settingsService.settings.workStart.toIso8601String()),
+                const SizedBox(height: 30),
+                Row(
+                  children: <Widget>[
+                    const Expanded(child: SizedBox()),
+                    const CancelButton(),
+                    const SizedBox(width: 10),
+                    ModifyStartTimeButton(formKey: _formKey),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
+class DecreaseOneMinuteIntent extends Intent {
+  final GlobalKey<FormBuilderState> formKey;
+  const DecreaseOneMinuteIntent(this.formKey);
+}
+
+class DecreaseOneMinuteAction extends Action<DecreaseOneMinuteIntent> {
+  @override
+  Object? invoke(DecreaseOneMinuteIntent intent) {
+    var formKey = intent.formKey;
+      var startTimeString =
+        formKey.currentState?.fields[StartTimeInputField.startTime]?.value;
+    if (startTimeString != null) {
+      var startTime = stringToTimeOfDay(startTimeString);
+      if (startTime != null) {
+        var hour = startTime.hour;
+        var minute = startTime.minute - 1;
+        if (minute <0) {
+          hour--;
+          minute = 59;
+        }
+        var newStartTime = timeToStingWith2Digits(hours: hour, minutes: minute);
+        formKey.currentState!.fields[StartTimeInputField.startTime]!.didChange(newStartTime);
+      }
+    }
+    return null;
+  }
+}
+
+class IncreaseOneMinuteIntent extends Intent {
+  final GlobalKey<FormBuilderState> formKey;
+  const IncreaseOneMinuteIntent(this.formKey);
+}
+
+class IncreaseOneMinuteAction extends Action<IncreaseOneMinuteIntent> {
+  @override
+  Object? invoke(IncreaseOneMinuteIntent intent) {
+    var formKey = intent.formKey;
+    var startTimeString =
+        formKey.currentState?.fields[StartTimeInputField.startTime]?.value;
+    if (startTimeString != null) {
+      var startTime = stringToTimeOfDay(startTimeString);
+      if (startTime != null) {
+        var hour = startTime.hour;
+        var minute = startTime.minute + 1;
+        if (minute > 59) {
+          hour++;
+          minute = 0;
+        }
+        var newStartTime = timeToStingWith2Digits(hours: hour, minutes: minute);
+        formKey.currentState!.fields[StartTimeInputField.startTime]!.didChange(newStartTime);
+      }
+    }
+    return null;
+  }
+}
+
+class CancelFormIntent extends Intent {
+  const CancelFormIntent();
+}
+
+class CancelFormAction extends Action<CancelFormIntent> {
+  @override
+  Object? invoke(CancelFormIntent intent) {
+    appWindow.hide();
+    return null;
+  }
+}
+
 class CancelButton extends StatelessWidget {
   const CancelButton({super.key});
 
-/// TODO escape to hide window https://www.youtube.com/watch?v=WMVoNA5cY9A
   @override
   Widget build(BuildContext context) => SizedBox(
         height: 50,
         child: OutlinedButton(
-          child: const Text(
-            "Cancel",
+          onPressed: Actions.handler<CancelFormIntent>(
+            context,
+            const CancelFormIntent(),
           ),
-          onPressed: () {
-            appWindow.hide();
-          },
+          child: const Text("Cancel"),
         ),
       );
 }
@@ -80,6 +169,31 @@ class ResetButton extends StatelessWidget {
       );
 }
 
+class SubmitFormIntent extends Intent {
+  final GlobalKey<FormBuilderState> formKey;
+  const SubmitFormIntent(this.formKey);
+}
+
+class SubmitFormAction extends Action<SubmitFormIntent> {
+  @override
+  Object? invoke(SubmitFormIntent intent) {
+    var formKey = intent.formKey;
+    formKey.currentState!.save();
+    var map = formKey.currentState!.value;
+    TimeOfDay? startTime = map[StartTimeInputField.startTime];
+
+    if (formKey.currentState!.validate() && startTime != null) {
+      var settingsService = getIt<SettingsService>();
+      var settings = settingsService.settings;
+      var workStart = settings.workStart
+          .copyWith(hour: startTime.hour, minute: startTime.minute);
+      settingsService.settings = settings.copyWith(workStart: workStart);
+      appWindow.hide();
+    }
+    return null;
+  }
+}
+
 class ModifyStartTimeButton extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
   const ModifyStartTimeButton({super.key, required this.formKey});
@@ -92,28 +206,13 @@ class ModifyStartTimeButton extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
-          onPressed: () => onPressed(context),
+          onPressed: Actions.handler<SubmitFormIntent>(
+            context,
+            SubmitFormIntent(formKey),
+          ),
           child: const Text("Modify start time"),
         ),
       );
-
-  void onPressed(BuildContext context) {
-    formKey.currentState!.save();
-    var map = formKey.currentState!.value;
-    TimeOfDay? startTime = map[StartTimeInputField.startTime];
-
-    if (formKey.currentState!.validate() && startTime != null) {
-      var settingsService = getIt<SettingsService>();
-      var settings = settingsService.settings;
-      var workStart = settings.workStart
-          .copyWith(hour: startTime.hour, minute: startTime.minute);
-      settingsService.settings = settings.copyWith(workStart: workStart);
-      appWindow.hide();
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Invalid input')));
-    }
-  }
 }
 
 class StartTimeInputField extends StatefulWidget {
@@ -128,10 +227,8 @@ class StartTimeInputField extends StatefulWidget {
 class _StartTimeInputFieldState extends State<StartTimeInputField> {
   String get _startTime {
     var workStart = getIt<SettingsService>().settings.workStart;
-    return '${asTwoDigits(workStart.hour)}:${asTwoDigits(workStart.minute)}';
+    return dateTimeToTimeStingWith2Digits(workStart);
   }
-
-  String asTwoDigits(int num) => num.toString().padLeft(2, '0');
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +252,7 @@ class _StartTimeInputFieldState extends State<StartTimeInputField> {
       ),
       inputFormatters: <TextInputFormatter>[timeFormatter],
       validator: timeValidator,
-      valueTransformer: valueTransformer,
+      valueTransformer: stringToTimeOfDay,
     );
   }
 
@@ -173,24 +270,32 @@ class _StartTimeInputFieldState extends State<StartTimeInputField> {
     }
     return "invalid time";
   }
+}
 
-  TimeOfDay? valueTransformer(String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    }
-    final components = value.split(":");
-    if (components.length == 2) {
-      try {
-        final hour = int.tryParse(components[0]);
-        final minute = int.tryParse(components[1]);
-        return TimeOfDay(hour: hour!, minute: minute!);
-      } catch (e) {
-        return null;
-      }
-    }
+TimeOfDay? stringToTimeOfDay(String? value) {
+  if (value == null || value.isEmpty) {
     return null;
   }
+  final components = value.split(":");
+  if (components.length == 2) {
+    try {
+      final hour = int.tryParse(components[0]);
+      final minute = int.tryParse(components[1]);
+      return TimeOfDay(hour: hour!, minute: minute!);
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
 }
+
+String dateTimeToTimeStingWith2Digits(DateTime workStart) =>
+    timeToStingWith2Digits(hours: workStart.hour, minutes: workStart.minute);
+
+String timeToStingWith2Digits({required int hours, required int minutes}) =>
+    '${asTwoDigits(hours)}:${asTwoDigits(minutes)}';
+
+String asTwoDigits(int num) => num.toString().padLeft(2, '0');
 
 class StartTimeInputFieldButtons extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
@@ -211,20 +316,28 @@ class StartTimeInputFieldButtons extends StatelessWidget {
       );
 }
 
+class OpenKronosInBrowserIntent extends Intent {
+  const OpenKronosInBrowserIntent();
+}
+
+class OpenKronosInBrowserAction extends Action<OpenKronosInBrowserIntent> {
+  @override
+  Future<Object?> invoke(OpenKronosInBrowserIntent intent) async {
+    var url = Uri.parse(
+        "https://secure.workforceready.eu/ta/6175861.home?rnd=KBQ&showAdmin=1&Ext=login&sft=EFJIGXIERR");
+    await launchUrl(url);
+    return null;
+  }
+}
+
 class KronosButton extends StatelessWidget {
   const KronosButton({super.key});
 
   @override
   Widget build(BuildContext context) => OutlinedButton(
-        onPressed: openKronosInBrowser,
+        onPressed: Actions.handler(context, const OpenKronosInBrowserIntent()),
         child: const Text("Kronos"),
       );
-
-  Future<void> openKronosInBrowser() async {
-    var url = Uri.parse(
-        "https://secure.workforceready.eu/ta/6175861.home?rnd=KBQ&showAdmin=1&Ext=login&sft=EFJIGXIERR");
-    await launchUrl(url);
-  }
 }
 
 class PropertyRow extends StatelessWidget {
