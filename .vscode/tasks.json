@@ -8,7 +8,11 @@
             "type": "shell",
             "command": "dart run msix:create",
             "detail": "You might need to do this once to get the signature approved: https://www.youtube.com/watch?v=s40bCNnFUgg"
-
+        },
+        {
+            "label": "build launch icon",
+            "type": "shell",
+            "command": "dart run flutter_launcher_icons",
         }
     ]
 }

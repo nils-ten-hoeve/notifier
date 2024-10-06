@@ -36,6 +36,8 @@ dependencies:
   path_provider: ^2.1.4
   window_manager: ^0.4.2
   mask_text_input_formatter: ^2.9.0
+  flutter_launcher_icons: ^0.14.1
+  
   
 dev_dependencies:
   flutter_test:
@@ -59,6 +61,13 @@ msix_config:
   identity_name: nils.ten.hoeve.notifier
   msix_version: 1.0.0.0
   logo_path: C:\Users\nilsth\My Flutter Projects\notifier\assets\notifier.png
+
+
+flutter_launcher_icons:
+  image_path: "assets/notifier.png"
+  windows:
+    generate: true
+    image_path: "assets/notifier.png"
 
 # The following section is specific to Flutter.
 flutter:
@@ -97,3 +106,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

@@ -23,6 +23,7 @@ void main() async {
     win.size = initialSize;
     win.alignment = Alignment.center;
     win.title = "Notifier";
+    /// TODO only show when needed.
     win.show();
   });
    windowManager.waitUntilReadyToShow().then((_) async{
