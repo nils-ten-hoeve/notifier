@@ -21,8 +21,9 @@ class SettingsDatabase {
   }
 }
 
-Future<String>  yamlFilePath() async {
+Future<String> yamlFilePath() async {
   final Directory appSupportDir = await getApplicationSupportDirectory();
-  var yamlFilePath = '${appSupportDir.path}${Platform.pathSeparator}notifier.yaml';
+  var yamlFilePath =
+      '${appSupportDir.path}${Platform.pathSeparator}notifier.yaml';
   return yamlFilePath;
 }

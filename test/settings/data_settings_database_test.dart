@@ -11,14 +11,14 @@ Future<void> main() async {
   group('SettingsDatabase', () {
     group('.yamlFilePath', () {
       test('starts with path of executable', () async {
-          await initGetIt();
-  SettingsDatabase database = getIt<SettingsDatabase>();
+        await initGetIt();
+        SettingsDatabase database = getIt<SettingsDatabase>();
         database.yamlFilePath.should.startWith(Platform.resolvedExecutable
             .replaceFirst(RegExp(r'\\(?:.(?!\\))+$'), ''));
       });
       test('ends with "\\notifier.yaml"', () async {
-          await initGetIt();
-  SettingsDatabase database = getIt<SettingsDatabase>();
+        await initGetIt();
+        SettingsDatabase database = getIt<SettingsDatabase>();
         database.yamlFilePath.should.endWith('\\notifier.yaml');
       });
     });
@@ -29,8 +29,8 @@ Future<void> main() async {
         var workDuration = const Duration(minutes: 123);
         var settings =
             Settings(workStart: workStart, workDuration: workDuration);
-              await initGetIt();
-  SettingsDatabase database = getIt<SettingsDatabase>();
+        await initGetIt();
+        SettingsDatabase database = getIt<SettingsDatabase>();
         database.write(settings);
         var fileContents = File(database.yamlFilePath).readAsStringSync();
         fileContents.should.be("workStart: '${workStart.toIso8601String()}'\n"
@@ -42,8 +42,8 @@ Future<void> main() async {
       test('should return a correct settings object', () async {
         var now = DateTime.now();
         var settings = Settings(workStart: now);
-          await initGetIt();
-  SettingsDatabase database = getIt<SettingsDatabase>();
+        await initGetIt();
+        SettingsDatabase database = getIt<SettingsDatabase>();
         database.write(settings);
         var result = database.read();
         result.should.be(settings);
@@ -51,4 +51,3 @@ Future<void> main() async {
     });
   });
 }
-

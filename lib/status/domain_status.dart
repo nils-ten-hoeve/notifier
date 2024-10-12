@@ -3,6 +3,7 @@ import 'package:notifier/settings/domain_settings.dart';
 class WorkTimeStatus {
   final String iconPath;
   final String message;
+  final bool isInvalid;
 
   factory WorkTimeStatus({
     required Settings settings,
@@ -11,7 +12,7 @@ class WorkTimeStatus {
     if (isWeekend(now)) {
       return WorkTimeStatus.weekend();
     }
-    if (isInvalid(settings.workStart)) {
+    if (isInvalidStartTime(settings.workStart)) {
       return WorkTimeStatus.invalid();
     }
     var workEnd = settings.workStart.add(settings.workDuration);
@@ -30,7 +31,7 @@ class WorkTimeStatus {
     );
   }
 
-  static bool isInvalid(DateTime start) =>
+  static bool isInvalidStartTime(DateTime start) =>
       start.hour < 5 || start.hour == 9 && start.minute > 0 || start.hour > 9;
 
   static bool isOverTime(Duration remaing) => remaing.isNegative;
@@ -39,11 +40,13 @@ class WorkTimeStatus {
 
   WorkTimeStatus.weekend()
       : iconPath = 'assets/weekend.ico',
-        message = 'Weekend!';
+        message = 'Weekend!',
+        isInvalid = false;
 
   WorkTimeStatus.invalid()
       : iconPath = 'assets/invalid.ico',
-        message = 'Invalid start time.';
+        message = 'Invalid start time.',
+        isInvalid = true;
 
   WorkTimeStatus.overtime(
     DateTime workStart,
@@ -51,7 +54,8 @@ class WorkTimeStatus {
     Duration duration,
   )   : iconPath = 'assets/overtime.ico',
         message = '${formatDuration(duration)} overtime '
-            '(${formatTime(workStart)}-${formatTime(workEnd)})';
+            '(${formatTime(workStart)}-${formatTime(workEnd)})',
+        isInvalid = false;
 
   WorkTimeStatus.remaining(
     DateTime workStart,
@@ -61,7 +65,8 @@ class WorkTimeStatus {
             ? 'assets/O${duration.inMinutes}.ico'
             : 'assets/${duration.inHours}${(duration.inMinutes % 60 ~/ 10)}.ico',
         message = '${formatDuration(duration)} remaining '
-            '(${formatTime(workStart)}-${formatTime(workEnd)})';
+            '(${formatTime(workStart)}-${formatTime(workEnd)})',
+        isInvalid = false;
 
   static String formatDuration(Duration duration) {
     if (duration.inMinutes == 1) {

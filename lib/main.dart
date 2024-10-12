@@ -5,6 +5,8 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:notifier/get_it/get_it.dart';
 import 'package:notifier/settings/presentation_settings_form.dart';
+import 'package:notifier/settings/service_settings.dart';
+import 'package:notifier/status/domain_status.dart';
 import 'package:notifier/updater.dart';
 import 'package:system_tray/system_tray.dart';
 import 'package:window_manager/window_manager.dart';
@@ -23,12 +25,26 @@ void main() async {
     win.size = initialSize;
     win.alignment = Alignment.center;
     win.title = "Notifier";
-    /// TODO only show when needed.
-    win.show();
+
+    /// only show setting form when needed.
+    if (status().isInvalid) {
+      win.show();
+    } else {
+      win.hide();
+    }
   });
-   windowManager.waitUntilReadyToShow().then((_) async{
-      await windowManager.setAsFrameless();
+  windowManager.waitUntilReadyToShow().then((_) async {
+    await windowManager.setAsFrameless();
   });
+}
+
+WorkTimeStatus status() {
+  var settingService = getIt<SettingsService>();
+  var status = WorkTimeStatus(
+    settings: settingService.settings,
+    now: DateTime.now(),
+  );
+  return status;
 }
 
 String getTrayImagePath(String imageName) {

@@ -12,14 +12,13 @@ class Updater {
   late WorkTimeStatus previousStatus;
   late Timer timer;
 
-   static final Updater _singleton = Updater._internal();
-  
+  static final Updater _singleton = Updater._internal();
+
   factory Updater() {
     return _singleton;
   }
-  
-  Updater._internal();
 
+  Updater._internal();
 
   Future<void> init() async {
     timer = Timer.periodic(const Duration(minutes: 1), (_) async {

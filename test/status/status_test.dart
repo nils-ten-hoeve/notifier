@@ -8,7 +8,7 @@ import 'package:shouldly/shouldly.dart';
 void main() {
   group('$WorkTimeStatus', () {
     group('Weekend!', () {
-       test('start=on friday', () {
+      test('start=on friday', () {
         //var start = DateTime.parse('2012-07-26 08:00:00');
         var start = DateTime.parse('2012-09-06 08:00:00');
         var settings = Settings(workStart: start);

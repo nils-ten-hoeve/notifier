@@ -79,19 +79,20 @@ class DecreaseOneMinuteAction extends Action<DecreaseOneMinuteIntent> {
   @override
   Object? invoke(DecreaseOneMinuteIntent intent) {
     var formKey = intent.formKey;
-      var startTimeString =
+    var startTimeString =
         formKey.currentState?.fields[StartTimeInputField.startTime]?.value;
     if (startTimeString != null) {
       var startTime = stringToTimeOfDay(startTimeString);
       if (startTime != null) {
         var hour = startTime.hour;
         var minute = startTime.minute - 1;
-        if (minute <0) {
+        if (minute < 0) {
           hour--;
           minute = 59;
         }
         var newStartTime = timeToStingWith2Digits(hours: hour, minutes: minute);
-        formKey.currentState!.fields[StartTimeInputField.startTime]!.didChange(newStartTime);
+        formKey.currentState!.fields[StartTimeInputField.startTime]!
+            .didChange(newStartTime);
       }
     }
     return null;
@@ -119,7 +120,8 @@ class IncreaseOneMinuteAction extends Action<IncreaseOneMinuteIntent> {
           minute = 0;
         }
         var newStartTime = timeToStingWith2Digits(hours: hour, minutes: minute);
-        formKey.currentState!.fields[StartTimeInputField.startTime]!.didChange(newStartTime);
+        formKey.currentState!.fields[StartTimeInputField.startTime]!
+            .didChange(newStartTime);
       }
     }
     return null;
