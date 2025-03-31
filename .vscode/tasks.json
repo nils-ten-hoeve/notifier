@@ -13,6 +13,11 @@
             "label": "build launch icon",
             "type": "shell",
             "command": "dart run flutter_launcher_icons",
+        },
+        {
+            "label": "dart format .",
+            "type": "shell",
+            "command": "dart format .",
         }
     ]
 }

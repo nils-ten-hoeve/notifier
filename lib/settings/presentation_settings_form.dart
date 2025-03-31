@@ -187,7 +187,7 @@ class SubmitFormAction extends Action<SubmitFormIntent> {
     if (formKey.currentState!.validate() && startTime != null) {
       var settingsService = getIt<SettingsService>();
       var settings = settingsService.settings;
-      var workStart = settings.workStart
+      var workStart = DateTime.now()
           .copyWith(hour: startTime.hour, minute: startTime.minute);
       settingsService.settings = settings.copyWith(workStart: workStart);
       appWindow.hide();
