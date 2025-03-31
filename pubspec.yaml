@@ -7,7 +7,7 @@ description: Flutter application for Windows to show remaining work time
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=2.19.0 <3.0.0"
+  sdk: ^3.7.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -27,7 +27,7 @@ dependencies:
   system_tray: ^2.0.3
   image: ^4.2.0
   collection: ^1.18.0
-  flutter_form_builder: ^9.4.1
+  flutter_form_builder: ^10.0.1
   get_it: ^7.7.0
   yaml: ^3.1.2
   yaml_writer: ^2.0.0
@@ -48,7 +48,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   shouldly: ^0.5.0+1
   msix: ^3.16.8
 
